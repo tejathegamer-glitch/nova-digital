@@ -7,7 +7,7 @@
 const MANUAL_PAYMENT = {
   upiId: "YOUR-UPI-ID-HERE",
   storeEmail: "YOUR-STORE-EMAIL-HERE",
-  qrImagePath: "assets/upi-qr.png",
+  qrImagePath: "upi-qr.png",
   storeName: "NOVA DIGITAL"
 };
 const products = [
