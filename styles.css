@@ -77,3 +77,19 @@ footer{display:flex;align-items:center;gap:25px;flex-wrap:wrap;padding:25px 5.5%
 .toast{position:fixed;z-index:20;bottom:20px;left:50%;padding:12px 18px;background:var(--green);color:#fff;font-size:11px;opacity:0;pointer-events:none;transform:translate(-50%,15px);transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
 @media(max-width:900px){.header{gap:18px}.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-content{padding-left:7%}.book{left:20%}.screen{right:4%}}
 @media(max-width:650px){.announcement{font-size:8px;gap:0}.announcement span{display:none}.header{display:grid;grid-template-columns:1fr auto;gap:14px;padding:16px 5%}.logo{font-size:15px}.logo-icon{width:34px;height:34px;flex-basis:34px}.search{grid-column:1/-1;grid-row:2;height:42px}.search button{padding:0 13px}.nav{justify-content:flex-start;gap:25px;overflow-x:auto;padding:0 5%;white-space:nowrap}.nav a{font-size:10px}main{padding:15px 4% 40px}.hero{grid-template-columns:1fr}.hero-content{padding:35px 7% 15px}h1{font-size:48px}.hero-content>p{font-size:12px}.hero-visual{min-height:280px}.book{top:15%;left:24%;width:145px;height:205px}.book b{font-size:22px}.screen{right:7%;bottom:12%;width:170px;height:130px}.round-stamp{top:7%;right:7%;width:56px;height:56px;font-size:7px}.trust-row{gap:10px;padding:20px 0}.trust-row>div{grid-template-columns:20px 1fr;gap:6px}.trust-row span{font-size:14px}.trust-row b{font-size:9px}.trust-row small{font-size:8px}.catalog{padding-top:42px}.section-top{align-items:flex-start;flex-direction:column;gap:15px}.section-top h2{font-size:35px}.section-top p{font-size:11px}.sort{width:100%;justify-content:space-between}.sort select{flex:1}.filters{gap:6px;margin:20px 0 15px}.filter{padding:8px 11px;font-size:9px}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.product-art{height:145px}.art-cover{width:75px;height:98px;font-size:27px}.product-art.templates .art-cover{width:105px;height:73px}.product-art.courses .art-cover{width:105px;height:68px}.product-info{padding:10px}.product-title{min-height:36px;font-size:15px}.product-desc{min-height:43px;font-size:9px}.price{font-size:12px}.add{width:31px;height:31px}.manifesto{margin-top:40px;padding:35px 15px}.manifesto h2{font-size:29px}footer{gap:14px;padding:22px 5%}footer>span{order:3;width:100%}footer>small{order:4;width:100%;margin-left:0}.drawer{padding:20px}}
+
+/* Manual-payment checkout additions */
+.manual-payment{margin-top:14px;padding:16px;border:1px solid var(--line);background:#fff;max-height:55vh;overflow:auto}
+.manual-payment h3{margin:0 0 10px;font:22px Georgia,serif}
+.manual-payment h4{margin:0 0 8px;font-size:12px}
+.manual-payment p{font-size:11px;line-height:1.55;overflow-wrap:anywhere}
+.order-number{padding:9px;background:#f4f3ed}
+.payment-method{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.qr-placeholder{display:grid;place-items:center;min-height:140px;padding:12px;border:1px dashed #a6ad9e;background:#f8f7f1;text-align:center;font-size:11px}
+.upi-qr{display:block;width:min(220px,100%);height:auto;margin:12px auto;border:1px solid var(--line);object-fit:contain}
+.muted{color:var(--muted);font-size:10px!important}
+.secondary-button{display:inline-block;margin:6px 0;padding:10px 12px;background:#e9eee7;color:var(--green);font-size:11px;font-weight:700;text-decoration:none}
+.order-form{display:grid;gap:8px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.order-form label{font-size:11px;font-weight:700}
+.order-form input{width:100%;padding:11px;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:12px}
+.order-form .pay-button{margin-top:4px;cursor:pointer}

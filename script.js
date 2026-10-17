@@ -1,13 +1,14 @@
 /*
- NOVA DIGITAL product catalogue.
- These are demo listings and sample prices. Replace them with products you own/have permission to sell.
- Checkout is disabled until a secure backend is configured and fully tested.
- Never put Razorpay Key Secret or Supabase service-role keys in this file.
+ NOVA DIGITAL manual-payment storefront.
+ Edit MANUAL_PAYMENT below with your own verified business payment details.
+ This static website does not verify payments. Check your bank/UPI account yourself
+ before delivering any digital product. Never add passwords, OTPs, PINs, or secret keys.
 */
-const CONFIG = {
-  SUPABASE_URL: "",
-  SUPABASE_ANON_KEY: "",
-  RAZORPAY_KEY_ID: ""
+const MANUAL_PAYMENT = {
+  upiId: "YOUR-UPI-ID-HERE",
+  storeEmail: "YOUR-STORE-EMAIL-HERE",
+  qrImagePath: "assets/upi-qr.png",
+  storeName: "NOVA DIGITAL"
 };
 const products = [
  {id:"ebook-productivity",name:"The Art of Starting",category:"ebooks",label:"Ebook / PDF guide",price:149,desc:"A thoughtful guide to getting started with your next idea.",icon:"N.",tag:"EDITOR'S PICK",bg:"#e5e7d8",cover:"#263d32",type:"ebooks"},
@@ -27,8 +28,6 @@ const products = [
 const state={category:"all",query:"",sort:"featured",cart:{}};
 const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:0}).format(n);
-let supabaseClient=null;
-if(CONFIG.SUPABASE_URL&&CONFIG.SUPABASE_ANON_KEY&&window.supabase) supabaseClient=window.supabase.createClient(CONFIG.SUPABASE_URL,CONFIG.SUPABASE_ANON_KEY);
 function productArt(p){if(p.type==="templates")return `<div class="art-cover"><i></i><i></i><i></i><i></i></div>`;return `<div class="art-cover">${p.icon}<small>NOVA DIGITAL</small></div>`;}
 function renderProducts(){
  let list=products.filter(p=>(state.category==="all"||p.category===state.category)&&(`${p.name} ${p.label} ${p.desc}`.toLowerCase().includes(state.query.toLowerCase())));
@@ -55,16 +54,42 @@ $("sortSelect").addEventListener("change",e=>{state.sort=e.target.value;renderPr
 $("productGrid").addEventListener("click",e=>{const b=e.target.closest("[data-add]");if(b)add(b.dataset.add);});
 $("cartToggle").addEventListener("click",openCart);$("closeCart").addEventListener("click",closeCart);$("shade").addEventListener("click",closeCart);
 $("cartItems").addEventListener("click",e=>{const q=e.target.closest("[data-qty]"),r=e.target.closest("[data-remove]");if(q){const id=q.dataset.id;state.cart[id]=(state.cart[id]||0)+Number(q.dataset.qty);if(state.cart[id]<=0)delete state.cart[id];renderCart();}if(r){delete state.cart[r.dataset.remove];renderCart();}});
-$("checkoutButton").addEventListener("click",async()=>{
- if(!supabaseClient||!CONFIG.RAZORPAY_KEY_ID){$("checkoutMessage").textContent="Secure checkout is not configured yet. Follow README to connect Supabase and Razorpay.";toast("Checkout is not configured yet.");return;}
- const items=Object.entries(state.cart).map(([product_id,quantity])=>({product_id,quantity}));
- const {data,error}=await supabaseClient.functions.invoke("create-order",{body:{items}});
- if(error||!data?.order_id){toast("Could not create checkout. Please try again.");return;}
- const checkout=new Razorpay({key:CONFIG.RAZORPAY_KEY_ID,amount:data.amount,currency:"INR",name:"NOVA DIGITAL",description:"Digital products",order_id:data.order_id,handler:async response=>{
-   const verified=await supabaseClient.functions.invoke("verify-payment",{body:{...response,order_id:data.order_id}});
-   if(verified.error||!verified.data?.verified){toast("Payment could not be verified. Contact support before retrying.");return;}
-   state.cart={};renderCart();closeCart();toast("Payment verified. Download delivery is not yet enabled; contact support.");
- },modal:{ondismiss:()=>toast("Checkout closed.")}});
- checkout.open();
+function currentCartSummary(){
+ const entries=Object.entries(state.cart).filter(([,q])=>q>0);
+ const total=entries.reduce((sum,[id,q])=>sum+products.find(p=>p.id===id).price*q,0);
+ return {entries,total,lines:entries.map(([id,q])=>{const p=products.find(x=>x.id===id);return `${p.name} x ${q} — ${money(p.price*q)}`;})};
+}
+function configured(value,placeholder){return value && value!==placeholder ? value : "Not configured yet";}
+$("checkoutButton").addEventListener("click",()=>{
+ const {entries,total}=currentCartSummary();
+ if(!entries.length){toast("Your bag is empty.");return;}
+ const orderRef="NOVA-"+new Date().toISOString().replace(/[-:TZ.]/g,"").slice(0,14)+"-"+Math.random().toString(36).slice(2,6).toUpperCase();
+ $("orderReference").textContent=orderRef;
+ $("manualAmount").textContent=money(total);
+ $("upiIdText").textContent=configured(MANUAL_PAYMENT.upiId,"YOUR-UPI-ID-HERE");
+ const hasUpi=MANUAL_PAYMENT.upiId && MANUAL_PAYMENT.upiId!=="YOUR-UPI-ID-HERE";
+ $("upiPayLink").classList.toggle("hidden",!hasUpi);
+ if(hasUpi){const params=new URLSearchParams({pa:MANUAL_PAYMENT.upiId,pn:MANUAL_PAYMENT.storeName,am:total.toFixed(2),cu:"INR",tn:orderRef});$("upiPayLink").href="upi://pay?"+params.toString();}
+ const qr=$("upiQrImage");
+ qr.src=MANUAL_PAYMENT.qrImagePath;
+ qr.onerror=()=>{qr.classList.add("hidden");$("qrPlaceholder").classList.remove("hidden");};
+ qr.onload=()=>{qr.classList.remove("hidden");$("qrPlaceholder").classList.add("hidden");};
+ $("manualPayment").classList.remove("hidden");
+ $("checkoutMessage").textContent="After paying, submit your order details. Your product is sent only after manual payment verification.";
+ $("manualPayment").scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+$("orderEmailForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const {entries,total,lines}=currentCartSummary();
+ if(!entries.length){toast("Your bag is empty.");return;}
+ if(!MANUAL_PAYMENT.storeEmail||MANUAL_PAYMENT.storeEmail==="YOUR-STORE-EMAIL-HERE"){
+   toast("Store email is not configured. Edit MANUAL_PAYMENT in script.js.");
+   $("checkoutMessage").textContent="Please configure storeEmail in script.js before using the order email button.";
+   return;
+ }
+ const orderRef=$("orderReference").textContent;
+ const body=[`Order reference: ${orderRef}`,`Customer name: ${$("buyerName").value.trim()}`,`Customer email: ${$("buyerEmail").value.trim()}`,`Products:`,...lines,`Total: ${money(total)}`,`Payment reference / UTR: ${$("paymentReference").value.trim()||"Not provided"}`,``,`Please verify payment in the bank/UPI account before fulfilling this order.`].join("\n");
+ const subject=`NOVA DIGITAL order ${orderRef}`;
+ window.location.href=`mailto:${encodeURIComponent(MANUAL_PAYMENT.storeEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 });
 $("year").textContent=new Date().getFullYear();renderProducts();renderCart();
