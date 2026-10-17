@@ -2,117 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="NOVA DIGITAL — discover ebooks, templates, courses and digital tools.">
-  <title>NOVA DIGITAL | Digital Products</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="NOVA DIGITAL — discover ebooks, templates, courses and creative tools.">
+  <title>NOVA DIGITAL — Your digital marketplace</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js" defer></script>
 </head>
 <body>
-  <div class="top-strip">Welcome to NOVA DIGITAL <span>Digital products. Instant possibilities.</span></div>
-
-  <header class="site-header">
-    <a class="brand" href="#" aria-label="NOVA DIGITAL home">
-      <span class="brand-mark">G</span>
-      <span>NOVA <b>DIGITAL</b><small>YOUR DIGITAL MARKETPLACE</small></span>
-    </a>
-    <form class="search" id="searchForm" role="search">
-      <label class="sr-only" for="searchInput">Search products</label>
-      <select id="searchCategory" aria-label="Search category">
-        <option value="all">All</option>
-        <option value="ebooks">Ebooks</option>
-        <option value="templates">Templates</option>
-        <option value="courses">Courses</option>
-        <option value="design">Design assets</option>
-      </select>
-      <input id="searchInput" type="search" placeholder="Search NOVA DIGITAL" autocomplete="off">
-      <button type="submit" aria-label="Search">⌕</button>
-    </form>
-    <div class="header-actions">
-      <button class="text-action" id="accountButton" type="button"><span>HELLO, SHOPPER</span><b>My account</b></button>
-      <button class="cart-button" id="cartToggle" type="button" aria-label="Open shopping cart">
-        <span class="cart-icon">🛒</span><span>Cart</span><span class="cart-count" id="cartCount">0</span>
-      </button>
-    </div>
+  <div class="announcement">THE DIGITAL EDITION <span>Resources to help you learn, plan and create.</span></div>
+  <header class="header">
+    <a class="logo" href="#"><span class="logo-icon">N</span><span>NOVA <b>DIGITAL</b><small>THE DIGITAL MARKETPLACE</small></span></a>
+    <form class="search" id="searchForm"><span>⌕</span><input id="searchInput" placeholder="Search ebooks, templates, courses…" aria-label="Search products"><button>Search</button></form>
+    <button class="cart-trigger" id="cartToggle">Bag <span id="cartCount">0</span></button>
   </header>
-
-  <nav class="category-nav" aria-label="Main categories">
-    <button class="nav-menu" id="allCategories" type="button">☰ <span>All</span></button>
-    <a href="#products" data-category-link="ebooks">Ebooks & Guides</a>
-    <a href="#products" data-category-link="templates">Templates</a>
-    <a href="#products" data-category-link="courses">Courses</a>
-    <a href="#products" data-category-link="design">Design Assets</a>
-    <a href="#benefits">Why NOVA DIGITAL?</a>
-  </nav>
-
+  <nav class="nav"><a href="#products">Discover</a><a href="#products" data-filter="ebooks">Ebooks</a><a href="#products" data-filter="templates">Templates</a><a href="#products" data-filter="courses">Courses</a><a href="#products" data-filter="design">Creative assets</a><a href="#footer">About</a></nav>
   <main>
     <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">YOUR NEXT GREAT DOWNLOAD</p>
-        <h1>Ideas that move you <span>forward.</span></h1>
-        <p>Explore useful digital products for learning, creating and getting more done.</p>
-        <a class="primary-button" href="#products">Explore products <span aria-hidden="true">→</span></a>
-        <div class="hero-points"><span>✓ Instant-access products</span><span>✓ Curated digital finds</span></div>
-      </div>
-      <div class="hero-art" aria-label="Illustration of digital products">
-        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-        <div class="float-card ebook-card"><span class="art-label">READ</span><div class="book-shape"><i></i><i></i><i></i></div><b>Ideas, organised.</b><small>Digital guides</small></div>
-        <div class="float-card template-card"><span class="art-label">CREATE</span><div class="mini-grid"><i></i><i></i><i></i><i></i></div><b>Make it yours.</b><small>Ready-to-use templates</small></div>
-        <div class="hero-sticker">DIGITAL<br>MADE SIMPLE</div>
-      </div>
+      <div class="hero-content"><div class="kicker"><i></i> THE FUTURE IS DIGITAL</div><h1>Make space for<br><em>what’s next.</em></h1><p>Thoughtful digital products for curious minds, ambitious creators and everyday problem-solvers.</p><a class="hero-button" href="#products">Explore the collection <span>↗</span></a><div class="hero-meta"><span>✦ Instant-access products</span><span>✦ Made for real life</span></div></div>
+      <div class="hero-visual"><div class="halo"></div><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="mockup book"><span>FIELD NOTES / 001</span><div class="book-mark">N.</div><b>The Art of<br>Starting</b><small>A guide for your next chapter</small></div><div class="mockup screen"><div class="screen-bar"><i></i><i></i><i></i></div><div class="screen-lines"><b></b><i></i><i></i><i></i></div><div class="screen-tiles"><i></i><i></i><i></i></div></div><div class="round-stamp">LEARN<br>CREATE<br>REPEAT</div></div>
     </section>
-
-    <section class="benefit-row" id="benefits">
-      <div><span class="benefit-icon">⚡</span><span><b>Digital-first</b><small>No physical shipping</small></span></div>
-      <div><span class="benefit-icon">▣</span><span><b>Useful resources</b><small>Tools for everyday goals</small></span></div>
-      <div><span class="benefit-icon">♡</span><span><b>Made for you</b><small>Learn, plan and create</small></span></div>
-      <div><span class="benefit-icon">↗</span><span><b>Shop anywhere</b><small>Responsive on mobile</small></span></div>
+    <section class="trust-row"><div><span>01</span><b>Curated resources</b><small>Useful by design</small></div><div><span>02</span><b>Digital by nature</b><small>No physical shipping</small></div><div><span>03</span><b>Made to move with you</b><small>Shop on any device</small></div></section>
+    <section class="catalog" id="products">
+      <div class="section-top"><div><div class="kicker">THE COLLECTION</div><h2>Find your next <em>favourite.</em></h2><p>Ideas, systems and tools for wherever you’re headed.</p></div><label class="sort">Sort <select id="sortSelect"><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="name">Name: A–Z</option></select></label></div>
+      <div class="filters" id="filters"><button class="filter active" data-category="all">All products</button><button class="filter" data-category="ebooks">Ebooks</button><button class="filter" data-category="templates">Templates</button><button class="filter" data-category="courses">Courses</button><button class="filter" data-category="design">Creative assets</button></div>
+      <div class="product-grid" id="productGrid"></div><div class="empty hidden" id="empty">No products found. Try another search or category.</div>
     </section>
-
-    <section class="products-section" id="products">
-      <div class="section-heading">
-        <div><p class="eyebrow">THE DIGITAL SHELF</p><h2>Explore our products</h2><p class="section-subtitle">Find your next favourite resource.</p></div>
-        <label class="sort-control">Sort by
-          <select id="sortSelect">
-            <option value="featured">Featured</option>
-            <option value="low">Price: low to high</option>
-            <option value="high">Price: high to low</option>
-            <option value="name">Name: A to Z</option>
-          </select>
-        </label>
-      </div>
-      <div class="category-chips" id="categoryChips" aria-label="Filter products">
-        <button class="chip active" data-category="all" type="button">All products</button>
-        <button class="chip" data-category="ebooks" type="button">Ebooks</button>
-        <button class="chip" data-category="templates" type="button">Templates</button>
-        <button class="chip" data-category="courses" type="button">Courses</button>
-        <button class="chip" data-category="design" type="button">Design assets</button>
-      </div>
-      <div class="product-grid" id="productGrid" aria-live="polite"></div>
-      <div class="empty-state hidden" id="emptyState"><span>⌕</span><h3>No products found</h3><p>Try another search or category.</p><button class="secondary-button" id="clearFilters" type="button">Clear filters</button></div>
-    </section>
-
-    <section class="newsletter">
-      <div><p class="eyebrow">A LITTLE DIGITAL INSPIRATION</p><h2>Make room for your next big idea.</h2><p>Explore resources designed to help you do more with what you know.</p></div>
-      <a class="light-button" href="#products">Browse the collection <span>→</span></a>
-    </section>
+    <section class="manifesto"><div class="kicker">A SMALL THOUGHT</div><h2>Good tools don’t do the work for you.<br><em>They help you do your best work.</em></h2><a href="#products">Find your next tool ↗</a></section>
   </main>
-
-  <footer class="site-footer">
-    <a class="brand footer-brand" href="#"><span class="brand-mark">G</span><span>NOVA <b>DIGITAL</b><small>YOUR DIGITAL MARKETPLACE</small></span></a>
-    <p>Discover. Download. Do more.</p>
-    <div class="footer-links"><a href="#products">Products</a><a href="#benefits">About</a><a href="mailto:hello@example.com">Contact</a></div>
-    <small class="copyright">© <span id="year"></span> NOVA DIGITAL. Demo storefront — replace sample products before launch.</small>
-  </footer>
-
-  <div class="overlay hidden" id="overlay"></div>
-  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart" aria-hidden="true">
-    <div class="drawer-heading"><div><p class="eyebrow">YOUR SELECTION</p><h2>Your cart <span id="drawerItemCount">(0)</span></h2></div><button class="close-button" id="closeCart" aria-label="Close cart" type="button">×</button></div>
-    <div class="cart-items" id="cartItems"></div>
-    <div class="cart-empty" id="cartEmpty"><span>🛍️</span><h3>Your cart is waiting</h3><p>Add a digital product to get started.</p></div>
-    <div class="cart-summary" id="cartSummary"><div><span>Subtotal</span><b id="cartSubtotal">₹0</b></div><small>Demo only. No payment will be taken.</small><button class="checkout-button" id="checkoutButton" type="button">Continue to checkout <span>→</span></button></div>
-  </aside>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <footer id="footer"><a class="logo footer-logo" href="#"><span class="logo-icon">N</span><span>NOVA <b>DIGITAL</b><small>THE DIGITAL MARKETPLACE</small></span></a><span>Discover something useful.</span><small>© <span id="year"></span> NOVA DIGITAL</small></footer>
+  <div class="shade hidden" id="shade"></div><aside class="drawer" id="drawer" aria-label="Shopping bag"><div class="drawer-top"><div><div class="kicker">YOUR SELECTION</div><h2>Your bag <span id="bagCount">(0)</span></h2></div><button id="closeCart" class="close">×</button></div><div id="cartItems" class="cart-items"></div><div id="cartEmpty" class="cart-empty"><div>✳</div><b>Your bag is waiting.</b><p>Find something useful for your next idea.</p></div><div class="checkout"><div class="subtotal"><span>Subtotal</span><b id="subtotal">₹0</b></div><p class="checkout-note">Secure checkout opens with our payment provider. Digital files are available only after payment verification.</p><button id="checkoutButton" class="pay-button">Continue to secure checkout ↗</button><p class="demo-note" id="checkoutMessage">Checkout requires the backend setup described in README.</p></div></aside>
+  <div id="toast" class="toast" role="status"></div>
 </body>
 </html>
